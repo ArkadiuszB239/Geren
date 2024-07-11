@@ -1,0 +1,16 @@
+spring:
+  jpa:
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+  datasource:
+    url: jdbc:postgresql://localhost:5432/geren_db?currentSchema=geren_dev&binaryTransfer=true&reWriteBatchedInserts=true
+    username: geren_main
+    password: admin1
+    driver-class-name: org.postgresql.Driver
+    platform: postgres
