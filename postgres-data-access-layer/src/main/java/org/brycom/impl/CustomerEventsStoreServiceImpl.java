@@ -8,12 +8,16 @@ import org.brycom.entities.CustomerEntity;
 import org.brycom.entities.MeetingEntity;
 import org.brycom.mapper.MeetingEntityMapper;
 import org.brycom.store.CustomerEventsStoreService;
+import org.brycom.valueobject.Customer;
 import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -39,32 +43,24 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
     }
 
     private void saveValidMeetings(List<MeetEvent> validEvents) {
+        Map<String, CustomerEntity> existingCustomersByPhoneNumber = customerRepository.findByPhoneNumbers(
+                validEvents.stream()
+                        .map(MeetEvent::getCustomer)
+                        .map(Customer::getPhoneNumber)
+                        .toList()
+        ).stream().collect(Collectors.toMap(CustomerEntity::getPhoneNumber, Function.identity()));
+
         List<MeetingEntity> meetings = validEvents.stream()
                 .map(meetingEntityMapper::mapToEntity)
                 .toList();
 
-        List<CustomerEntity> existingCustomers = customerRepository.findByPhoneNumbers(
-                meetings.stream()
-                        .map(MeetingEntity::getCustomer)
+        meetings.forEach(m -> m.setCustomer(
+                Optional.of(m.getCustomer())
                         .map(CustomerEntity::getPhoneNumber)
-                        .toList()
-        );
+                        .map(existingCustomersByPhoneNumber::get)
+                        .orElse(m.getCustomer())
+        ));
 
-        List<CustomerEntity> customersToSave = new ArrayList<>();
-        for (MeetingEntity meetingEntity : meetings) {
-            if (existingCustomers.contains(meetingEntity.getCustomer())) {
-                meetingEntity.setCustomer(
-                        existingCustomers.stream()
-                                .filter(meetingEntity.getCustomer()::equals)
-                                .findFirst()
-                                .get()
-                );
-            } else {
-                customersToSave.add(meetingEntity.getCustomer());
-            }
-        }
-
-        genericDAO.saveInBatch(customersToSave);
         genericDAO.saveInBatch(meetings);
     }
 }

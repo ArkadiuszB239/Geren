@@ -19,7 +19,7 @@ public class MeetingEntity {
     @SequenceGenerator(name = "meeting_id_generator", sequenceName = "s_meeting", allocationSize = 1)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
