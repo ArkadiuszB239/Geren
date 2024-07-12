@@ -8,6 +8,7 @@ import org.brycom.entities.CustomerEntity;
 import org.brycom.entities.MeetingEntity;
 import org.brycom.mapper.MeetingEntityMapper;
 import org.brycom.store.CustomerEventsStoreService;
+import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
 import org.springframework.stereotype.Service;
 
@@ -24,10 +25,24 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
 
     @Override
     @Transactional
-    public void storeAllEvents(List<MeetEvent> meetEvents) {
-        List<MeetingEntity> meetings = meetEvents.stream()
+    public void storeAllEvents(EventsGroup meetEventsGroup) {
+        saveValidMeetings(meetEventsGroup.getValidEvents());
+        saveInvalidMeetings(meetEventsGroup.getInvalidEvents());
+    }
+
+    private void saveInvalidMeetings(List<MeetEvent> invalidEvents) {
+        genericDAO.saveInBatch(
+                invalidEvents.stream()
+                        .map(meetingEntityMapper::mapToEntity)
+                        .toList()
+        );
+    }
+
+    private void saveValidMeetings(List<MeetEvent> validEvents) {
+        List<MeetingEntity> meetings = validEvents.stream()
                 .map(meetingEntityMapper::mapToEntity)
                 .toList();
+
         List<CustomerEntity> existingCustomers = customerRepository.findByPhoneNumbers(
                 meetings.stream()
                         .map(MeetingEntity::getCustomer)

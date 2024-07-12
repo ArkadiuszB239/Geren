@@ -8,6 +8,7 @@ import org.brycom.store.CustomerEventsStoreService;
 import org.brycom.utils.DateUtils;
 import org.brycom.valueobject.CalendarEvent;
 import org.brycom.valueobject.EventSearchRequest;
+import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class CustomerEventsService {
 
     public void collectAndStoreCustomerEvents() {
         List<MeetEvent> events = getCustomerEvents();
-        customerEventsStoreService.storeAllEvents(events);
+        customerEventsStoreService.storeAllEvents(new EventsGroup(events));
     }
 
     public List<MeetEvent> getCustomerEvents() {

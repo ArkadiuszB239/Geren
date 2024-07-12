@@ -20,7 +20,7 @@ public class MeetingEntity {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
     @Basic(optional = false)
@@ -32,4 +32,7 @@ public class MeetingEntity {
     @Basic(optional = false)
     @Enumerated(EnumType.STRING)
     private NotificationState notificationState;
+
+    @Basic(optional = false)
+    private String phoneNumber;
 }

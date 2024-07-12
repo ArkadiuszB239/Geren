@@ -1,9 +1,7 @@
 package org.brycom.store;
 
-import org.brycom.valueobject.MeetEvent;
-
-import java.util.List;
+import org.brycom.valueobject.EventsGroup;
 
 public interface CustomerEventsStoreService {
-    void storeAllEvents(List<MeetEvent> meetEvents);
+    void storeAllEvents(EventsGroup meetEventsGroup);
 }

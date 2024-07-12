@@ -11,5 +11,6 @@ public interface MeetEventsMapper {
     @Mapping(target = "customer.name", source = "summary")
     @Mapping(target = "customer.phoneNumber", source = "description")
     @Mapping(target = "startTime", source = "eventStartDate")
+    @Mapping(target = "phoneNumber", source = "description")
     MeetEvent calendarToMeetEvent(CalendarEvent calendarEvent);
 }

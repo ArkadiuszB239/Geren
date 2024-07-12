@@ -11,9 +11,19 @@ public class MeetEvent {
     private Customer customer;
     private OffsetDateTime startTime;
     private NotificationState notificationState = NotificationState.NEW;
+    private String phoneNumber;
 
     public MeetEvent invalid() {
         this.notificationState = NotificationState.INVALID;
+        this.customer = null;
         return this;
+    }
+
+    public boolean isValid() {
+        return !isInvalid();
+    }
+
+    public boolean isInvalid() {
+        return NotificationState.INVALID.equals(this.notificationState);
     }
 }
