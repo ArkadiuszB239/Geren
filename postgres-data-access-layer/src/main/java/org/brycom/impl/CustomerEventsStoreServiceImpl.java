@@ -35,6 +35,10 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
     }
 
     private void saveInvalidMeetings(List<MeetEvent> invalidEvents) {
+        if (invalidEvents.isEmpty()) {
+            return;
+        }
+
         genericDAO.saveInBatch(
                 invalidEvents.stream()
                         .map(meetingEntityMapper::mapToEntity)
@@ -43,6 +47,10 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
     }
 
     private void saveValidMeetings(List<MeetEvent> validEvents) {
+        if (validEvents.isEmpty()) {
+            return;
+        }
+
         Map<String, CustomerEntity> existingCustomersByPhoneNumber = customerRepository.findByPhoneNumbers(
                 validEvents.stream()
                         .map(MeetEvent::getCustomer)

@@ -1,6 +1,7 @@
 package org.brycom.entities;
 
 import jakarta.persistence.*;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.brycom.valueobject.NotificationState;
@@ -12,6 +13,7 @@ import java.time.OffsetDateTime;
 @Setter
 @Entity
 @Table(name = "meeting")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MeetingEntity {
 
     @Id
@@ -27,6 +29,7 @@ public class MeetingEntity {
     private OffsetDateTime startTime;
 
     @Basic(optional = false)
+    @EqualsAndHashCode.Include
     private LocalDate meetingDay;
 
     @Basic(optional = false)
@@ -34,5 +37,6 @@ public class MeetingEntity {
     private NotificationState notificationState;
 
     @Basic(optional = false)
+    @EqualsAndHashCode.Include
     private String phoneNumber;
 }
