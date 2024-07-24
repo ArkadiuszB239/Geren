@@ -14,3 +14,9 @@ spring:
     password: admin1
     driver-class-name: org.postgresql.Driver
     platform: postgres
+
+scheduled:
+  jobs:
+    daily-meetings:
+      enabled: true
+      cron: 0 0 6 * * *
