@@ -1,6 +1,8 @@
 package org.brycom.service;
 
 import com.google.api.services.calendar.Calendar;
+import com.google.api.services.calendar.model.CalendarList;
+import com.google.api.services.calendar.model.CalendarListEntry;
 import com.google.api.services.calendar.model.Events;
 import lombok.RequiredArgsConstructor;
 import org.brycom.valueobject.CalendarEvent;
@@ -18,7 +20,7 @@ public class CalendarService {
 
     public List<CalendarEvent> getCalendarEvents(EventSearchRequest searchRequest) throws IOException {
         Events events = calendarService.events()
-                .list("primary")
+                .list(searchRequest.getCalendarId())
                 .setTimeMin(searchRequest.getFromDate())
                 .setTimeMax(searchRequest.getToDate())
                 .setOrderBy("startTime")
@@ -26,7 +28,20 @@ public class CalendarService {
                 .execute();
 
         return events.getItems().stream()
-                .map(CalendarEvent::new)
+                .map(event -> new CalendarEvent(event, events.getSummary()))
+                .toList();
+    }
+
+    public List<String> getCalendarIds(List<String> calendarNames) throws IOException {
+        CalendarList calendarList = calendarService.calendarList()
+                .list()
+                .execute();
+
+        return calendarList
+                .getItems()
+                .stream()
+                .filter(e -> calendarNames.contains(e.getSummary()))
+                .map(CalendarListEntry::getId)
                 .toList();
     }
 }

@@ -12,6 +12,7 @@ public class MeetEvent {
     private OffsetDateTime startTime;
     private NotificationState notificationState = NotificationState.NEW;
     private String phoneNumber;
+    private String sourceCalendar;
 
     public MeetEvent invalid() {
         this.notificationState = NotificationState.INVALID;

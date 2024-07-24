@@ -19,7 +19,7 @@ public class EventsController {
     public ResponseEntity<List<MeetEvent>> getTodayEvents() {
         customerEventsService.collectAndStoreCustomerEvents();
         return ResponseEntity.ok(
-                customerEventsService.getCustomerEvents()
+                customerEventsService.getEvents()
         );
     }
 }

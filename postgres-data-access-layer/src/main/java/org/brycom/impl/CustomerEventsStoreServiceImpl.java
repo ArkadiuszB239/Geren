@@ -51,12 +51,7 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
             return;
         }
 
-        Map<String, CustomerEntity> existingCustomersByPhoneNumber = customerRepository.findByPhoneNumbers(
-                validEvents.stream()
-                        .map(MeetEvent::getCustomer)
-                        .map(Customer::getPhoneNumber)
-                        .toList()
-        ).stream().collect(Collectors.toMap(CustomerEntity::getPhoneNumber, Function.identity()));
+        Map<String, CustomerEntity> existingCustomersByPhoneNumber = findExistingCustomersForIncomingEvents(validEvents);
 
         List<MeetingEntity> meetings = validEvents.stream()
                 .map(meetingEntityMapper::mapToEntity)
@@ -70,5 +65,14 @@ public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreServic
         ));
 
         genericDAO.saveInBatch(meetings);
+    }
+
+    private Map<String, CustomerEntity> findExistingCustomersForIncomingEvents(List<MeetEvent> validEvents) {
+        return customerRepository.findByPhoneNumbers(
+                validEvents.stream()
+                        .map(MeetEvent::getCustomer)
+                        .map(Customer::getPhoneNumber)
+                        .toList()
+        ).stream().collect(Collectors.toMap(CustomerEntity::getPhoneNumber, Function.identity()));
     }
 }

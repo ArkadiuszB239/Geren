@@ -10,10 +10,12 @@ import java.util.Date;
 
 @Getter
 public class EventSearchRequest {
+    private final String calendarId;
     private final DateTime fromDate;
     private final DateTime toDate;
 
-    public EventSearchRequest(LocalDateTime fromDate, LocalDateTime toDate) {
+    public EventSearchRequest(String calendarId, LocalDateTime fromDate, LocalDateTime toDate) {
+        this.calendarId = calendarId;
         this.fromDate = toDateTime(fromDate);
         this.toDate = toDateTime(toDate);
     }

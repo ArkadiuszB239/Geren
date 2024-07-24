@@ -16,6 +16,7 @@ create table IF NOT EXISTS geren_dev.meeting
     id bigint NOT NULL,
     customer_id bigint,
     phone_number character varying COLLATE pg_catalog."default" NOT NULL,
+    source_calendar character varying COLLATE pg_catalog."default" NOT NULL,
 	start_time TIMESTAMP WITH TIME ZONE not null,
 	meeting_day TIMESTAMP WITH TIME ZONE not null,
 	notification_state character varying COLLATE pg_catalog."default" NOT NULL,

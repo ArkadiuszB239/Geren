@@ -39,4 +39,8 @@ public class MeetingEntity {
     @Basic(optional = false)
     @EqualsAndHashCode.Include
     private String phoneNumber;
+
+    @Basic(optional = false)
+    @EqualsAndHashCode.Include
+    private String sourceCalendar;
 }
