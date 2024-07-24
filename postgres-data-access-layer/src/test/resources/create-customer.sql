@@ -1,0 +1,1 @@
+INSERT INTO customer(id, name, phone_number) VALUES (120, 'Test', '333444555');
