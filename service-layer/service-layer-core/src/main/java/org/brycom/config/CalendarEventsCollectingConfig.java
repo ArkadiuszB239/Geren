@@ -1,6 +1,6 @@
 package org.brycom.config;
 
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -15,6 +15,6 @@ import java.util.List;
 @Configuration
 @ConfigurationProperties(prefix = "calendar-events-collecting")
 public class CalendarEventsCollectingConfig {
-    @NotNull
+    @NotEmpty
     private List<String> calendars;
 }
