@@ -10,4 +10,11 @@
     </parent>
 
     <artifactId>service-layer-core</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.brycom</groupId>
+            <artifactId>google-calendar-api</artifactId>
+        </dependency>
+    </dependencies>
 </project>

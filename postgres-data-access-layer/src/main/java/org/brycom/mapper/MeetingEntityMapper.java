@@ -15,6 +15,8 @@ public interface MeetingEntityMapper {
     @Mapping(source = "startTime", target = "meetingDay")
     MeetingEntity mapToEntity(MeetEvent meetEvent);
 
+    MeetEvent mapToEvent(MeetingEntity meetingEntity);
+
     CustomerEntity mapToCustomerEntity(Customer customer);
 
     default LocalDate toLocalDate(OffsetDateTime value) {

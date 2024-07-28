@@ -19,15 +19,16 @@ public class CustomerEventsService {
     private final CustomerEventsStoreService customerEventsStoreService;
 
     public void collectAndStoreCustomerEvents() {
-        List<MeetEvent> events = getEvents();
-        customerEventsStoreService.storeAllEvents(new EventsGroup(events));
+        EventsGroup eventsGroup = getEvents();
+        customerEventsStoreService.storeAllEvents(eventsGroup);
     }
 
-    public List<MeetEvent> getEvents() {
+    public EventsGroup getEvents() {
         List<CalendarEvent> calendarEvents = eventsProvider.get();
-        return calendarEvents.stream()
+        List<MeetEvent> events = calendarEvents.stream()
                 .map(meetEventsMapper::calendarToMeetEvent)
-                .map(meetEvent -> MeetEventsValidator.isValid(meetEvent) ? meetEvent : meetEvent.invalid())
+                .map(meetEvent -> MeetEventsValidator.isValid(meetEvent) ? meetEvent.valid() : meetEvent.invalid())
                 .toList();
+        return new EventsGroup(events);
     }
 }
