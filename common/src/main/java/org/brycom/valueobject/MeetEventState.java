@@ -1,5 +1,5 @@
 package org.brycom.valueobject;
 
-public enum NotificationState {
+public enum MeetEventState {
     NEW, PROCESSING, PROCESSED, INVALID
 }

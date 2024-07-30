@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS meeting
     source_calendar VARCHAR NOT NULL,
     start_time TIMESTAMP NOT NULL,
     meeting_day DATE NOT NULL,
-    notification_state VARCHAR NOT NULL,
+    state VARCHAR NOT NULL,
     CONSTRAINT meeting_pkey PRIMARY KEY (id),
     CONSTRAINT meeting_customer_fk FOREIGN KEY (customer_id) REFERENCES customer(id)
 );

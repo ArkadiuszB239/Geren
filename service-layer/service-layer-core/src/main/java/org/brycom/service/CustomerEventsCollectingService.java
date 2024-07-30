@@ -3,7 +3,7 @@ package org.brycom.service;
 
 import lombok.RequiredArgsConstructor;
 import org.brycom.mapper.MeetEventsMapper;
-import org.brycom.store.CustomerEventsStoreService;
+import org.brycom.service.external.CustomerEventsService;
 import org.brycom.valueobject.CalendarEvent;
 import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
@@ -13,14 +13,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerEventsService {
+public class CustomerEventsCollectingService {
     private final MeetEventsMapper meetEventsMapper;
     private final CalendarEventsProvider eventsProvider;
-    private final CustomerEventsStoreService customerEventsStoreService;
+    private final CustomerEventsService customerEventsService;
 
     public void collectAndStoreCustomerEvents() {
         EventsGroup eventsGroup = getEvents();
-        customerEventsStoreService.storeAllEvents(eventsGroup);
+        customerEventsService.storeAllEvents(eventsGroup);
     }
 
     public EventsGroup getEvents() {

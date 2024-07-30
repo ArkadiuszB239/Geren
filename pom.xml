@@ -22,10 +22,12 @@
         <module>google-calendar-api</module>
         <module>customer-service</module>
         <module>postgres-data-access-layer</module>
+        <module>aws-services</module>
     </modules>
 
     <properties>
         <maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
+        <spring-cloud.aws.version>3.0.0</spring-cloud.aws.version>
     </properties>
 
     <dependencyManagement>
@@ -54,6 +56,18 @@
                 <groupId>org.brycom</groupId>
                 <artifactId>postgres-data-access-layer</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.brycom</groupId>
+                <artifactId>aws-services</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.awspring.cloud</groupId>
+                <artifactId>spring-cloud-aws-dependencies</artifactId>
+                <version>${spring-cloud.aws.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>

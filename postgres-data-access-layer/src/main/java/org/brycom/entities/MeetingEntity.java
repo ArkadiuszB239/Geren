@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.brycom.valueobject.NotificationState;
+import org.brycom.valueobject.MeetEventState;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
@@ -33,8 +33,9 @@ public class MeetingEntity {
     private LocalDate meetingDay;
 
     @Basic(optional = false)
+    @Column(name = "state")
     @Enumerated(EnumType.STRING)
-    private NotificationState notificationState;
+    private MeetEventState meetEventState;
 
     @Basic(optional = false)
     @EqualsAndHashCode.Include

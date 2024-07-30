@@ -2,12 +2,11 @@ package org.brycom.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.brycom.dao.CustomerRepository;
-import org.brycom.dao.GenericDAO;
+import org.brycom.repository.CustomerRepository;
+import org.brycom.repository.GenericDAO;
 import org.brycom.entities.CustomerEntity;
 import org.brycom.entities.MeetingEntity;
 import org.brycom.mapper.MeetingEntityMapper;
-import org.brycom.store.CustomerEventsStoreService;
 import org.brycom.valueobject.Customer;
 import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
@@ -21,17 +20,16 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class CustomerEventsStoreServiceImpl implements CustomerEventsStoreService {
+public class CustomerEventsStoreService {
 
     private final GenericDAO genericDAO;
-    private final CustomerRepository customerRepository;
     private final MeetingEntityMapper meetingEntityMapper;
+    private final CustomerRepository customerRepository;
 
-    @Override
     @Transactional
-    public void storeAllEvents(EventsGroup meetEventsGroup) {
-        saveValidMeetings(meetEventsGroup.getValidEvents());
-        saveInvalidMeetings(meetEventsGroup.getInvalidEvents());
+    public void storeEvents(EventsGroup eventsGroup) {
+        saveValidMeetings(eventsGroup.getValidEvents());
+        saveInvalidMeetings(eventsGroup.getInvalidEvents());
     }
 
     private void saveInvalidMeetings(List<MeetEvent> invalidEvents) {

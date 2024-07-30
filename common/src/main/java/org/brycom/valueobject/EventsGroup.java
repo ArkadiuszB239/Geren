@@ -1,14 +1,14 @@
 package org.brycom.valueobject;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Getter
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class EventsGroup {
-    private final List<MeetEvent> meetEvents;
+    private List<MeetEvent> meetEvents;
 
     public List<MeetEvent> getValidEvents() {
         return meetEvents.stream()

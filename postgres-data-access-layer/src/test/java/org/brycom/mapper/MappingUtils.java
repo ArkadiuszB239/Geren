@@ -15,7 +15,7 @@ public class MappingUtils {
         meetingEntity.setMeetingDay(meetEvent.getStartTime().toLocalDate());
         meetingEntity.setCustomer(Optional.ofNullable(meetEvent.getCustomer()).map(MappingUtils::toCustomerEntity).orElse(null));
         meetingEntity.setStartTime(meetEvent.getStartTime());
-        meetingEntity.setNotificationState(meetEvent.getNotificationState());
+        meetingEntity.setMeetEventState(meetEvent.getMeetEventState());
         meetingEntity.setPhoneNumber(meetEvent.getPhoneNumber());
         return meetingEntity;
     }

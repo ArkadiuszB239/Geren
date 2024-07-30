@@ -13,14 +13,15 @@ import static com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.E16
 @Getter
 @Setter
 public class MeetEvent {
+    private Long meetingId;
     private Customer customer;
     private OffsetDateTime startTime;
-    private NotificationState notificationState = NotificationState.NEW;
+    private MeetEventState meetEventState = MeetEventState.NEW;
     private String phoneNumber;
     private String sourceCalendar;
 
     public MeetEvent invalid() {
-        this.notificationState = NotificationState.INVALID;
+        this.meetEventState = MeetEventState.INVALID;
         this.customer = null;
         return this;
     }
@@ -30,7 +31,7 @@ public class MeetEvent {
     }
 
     public boolean isInvalid() {
-        return NotificationState.INVALID.equals(this.notificationState);
+        return MeetEventState.INVALID.equals(this.meetEventState);
     }
 
     @SneakyThrows

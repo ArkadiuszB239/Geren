@@ -1,4 +1,4 @@
-package org.brycom.dao;
+package org.brycom.repository;
 
 import org.brycom.entities.CustomerEntity;
 import org.junit.jupiter.api.BeforeEach;

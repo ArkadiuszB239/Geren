@@ -19,7 +19,7 @@ create table IF NOT EXISTS geren_dev.meeting
     source_calendar character varying COLLATE pg_catalog."default" NOT NULL,
 	start_time TIMESTAMP WITH TIME ZONE not null,
 	meeting_day TIMESTAMP WITH TIME ZONE not null,
-	notification_state character varying COLLATE pg_catalog."default" NOT NULL,
+	state character varying COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT meeting_pkey PRIMARY KEY (id),
 	CONSTRAINT meeting_customer_fk FOREIGN KEY (customer_id) REFERENCES geren_dev.customer(id)
 );

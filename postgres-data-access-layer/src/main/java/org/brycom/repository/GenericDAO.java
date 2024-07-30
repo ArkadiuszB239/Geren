@@ -1,4 +1,4 @@
-package org.brycom.dao;
+package org.brycom.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

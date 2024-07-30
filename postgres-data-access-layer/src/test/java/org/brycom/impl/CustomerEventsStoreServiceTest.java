@@ -1,8 +1,8 @@
 package org.brycom.impl;
 
 
-import org.brycom.dao.CustomerRepository;
-import org.brycom.dao.GenericDAO;
+import org.brycom.repository.CustomerRepository;
+import org.brycom.repository.GenericDAO;
 import org.brycom.entities.CustomerEntity;
 import org.brycom.entities.MeetingEntity;
 import org.brycom.mapper.MappingUtils;
@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class CustomerEventsStoreServiceImplTest {
+public class CustomerEventsStoreServiceTest {
 
     @Mock
     private GenericDAO genericDAO;
@@ -40,7 +40,7 @@ public class CustomerEventsStoreServiceImplTest {
     private MeetingEntityMapper meetingEntityMapper;
 
     @InjectMocks
-    private CustomerEventsStoreServiceImpl customerEventsStoreService;
+    private CustomerEventsStoreService customerEventsStoreService;
 
     @BeforeEach
     public void init() {
@@ -53,7 +53,7 @@ public class CustomerEventsStoreServiceImplTest {
     void shouldSaveValidMeetings() {
         MeetEvent event = createEvent("554 332 152");
 
-        customerEventsStoreService.storeAllEvents(new EventsGroup(List.of(event)));
+        customerEventsStoreService.storeEvents(new EventsGroup(List.of(event)));
 
         verify(meetingEntityMapper, times(1)).mapToEntity(any(MeetEvent.class));
         verify(customerRepository, times(1)).findByPhoneNumbers(anyList());
@@ -64,7 +64,7 @@ public class CustomerEventsStoreServiceImplTest {
     void shouldSaveInvalidMeetings() {
         MeetEvent event = createEvent("554 332 152 22").invalid();
 
-        customerEventsStoreService.storeAllEvents(new EventsGroup(List.of(event)));
+        customerEventsStoreService.storeEvents(new EventsGroup(List.of(event)));
 
         verify(meetingEntityMapper, times(1)).mapToEntity(any(MeetEvent.class));
         verify(customerRepository, never()).findByPhoneNumbers(anyList());
@@ -80,7 +80,7 @@ public class CustomerEventsStoreServiceImplTest {
         customer.setId(customerId);
         when(customerRepository.findByPhoneNumbers(List.of(phoneNumber))).thenReturn(List.of(customer));
 
-        customerEventsStoreService.storeAllEvents(new EventsGroup(List.of(event)));
+        customerEventsStoreService.storeEvents(new EventsGroup(List.of(event)));
 
         ArgumentCaptor<List<MeetingEntity>> captor = ArgumentCaptor.forClass(List.class);
         verify(meetingEntityMapper, times(1)).mapToEntity(any(MeetEvent.class));

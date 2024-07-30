@@ -13,5 +13,6 @@ public interface MeetEventsMapper {
     @Mapping(target = "startTime", source = "eventStartDate")
     @Mapping(target = "phoneNumber", source = "description")
     @Mapping(target = "sourceCalendar", source = "calendarName")
+    @Mapping(target = "meetingId", ignore = true)
     MeetEvent calendarToMeetEvent(CalendarEvent calendarEvent);
 }

@@ -15,6 +15,7 @@ public interface MeetingEntityMapper {
     @Mapping(source = "startTime", target = "meetingDay")
     MeetingEntity mapToEntity(MeetEvent meetEvent);
 
+    @Mapping(source = "id", target="meetingId")
     MeetEvent mapToEvent(MeetingEntity meetingEntity);
 
     CustomerEntity mapToCustomerEntity(Customer customer);
