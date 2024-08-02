@@ -7,11 +7,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.brycom.service.external.SMSGatewayService;
 import org.brycom.valueobject.SMSContext;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "calendar-events-processing.notification-medium", havingValue = "AWS")
 public class AWSSMSGatewayService implements SMSGatewayService {
 
     private final SnsSmsTemplate smsTemplate;

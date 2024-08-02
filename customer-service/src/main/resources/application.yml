@@ -29,3 +29,5 @@ calendar-events-collecting:
   calendars:
     - "primary"
     - "Testowy calendar 2"
+calendar-events-processing:
+  notification-medium: MOCK
