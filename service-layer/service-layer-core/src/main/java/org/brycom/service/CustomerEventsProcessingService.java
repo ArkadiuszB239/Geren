@@ -3,13 +3,13 @@ package org.brycom.service;
 import lombok.RequiredArgsConstructor;
 import org.brycom.service.external.CustomerEventsService;
 import org.brycom.service.external.SMSGatewayService;
+import org.brycom.utils.DateUtils;
 import org.brycom.valueobject.*;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class CustomerEventsProcessingService {
-
     private final CustomerEventsService customerEventsService;
     private final SMSGatewayService smsGatewayService;
 
@@ -26,9 +26,8 @@ public class CustomerEventsProcessingService {
 
     private SMSContext createContext(MeetEvent meetEvent) {
         String message = String.format(
-                "Hello, we would like to inform you about your meeting today at %s:%s",
-                meetEvent.getStartTime().getHour(),
-                meetEvent.getStartTime().getMinute()
+                "Hello, we would like to inform you about your meeting today at %s",
+                meetEvent.getStartTime().format(DateUtils.hourAndMinutedFormatter())
         );
 
         return new SMSContext(

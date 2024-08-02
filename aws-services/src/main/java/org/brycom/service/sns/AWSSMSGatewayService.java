@@ -23,7 +23,7 @@ public class AWSSMSGatewayService implements SMSGatewayService {
                 context.getReceiver(),
                 context.getMessage(),
                 SmsMessageAttributes.builder()
-                        .senderID("Barber shop")
+                        .senderID("BarberShop")
                         .smsType(SmsType.PROMOTIONAL)
                         .build()
         );

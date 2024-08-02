@@ -16,9 +16,6 @@ spring:
     platform: postgres
   cloud:
     aws:
-      credentials:
-        access-key: test
-        secret-key: test
       region:
         static: eu-central-1
 
