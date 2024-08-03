@@ -19,18 +19,16 @@ spring:
       region:
         static: eu-central-1
 
-scheduled:
-  jobs:
-    daily-meetings:
-      enabled: true
-      cron: 0 0 6 * * *
-    meetings-notification:
-      enabled: true
-      cron: 0 0 7 * * *
-
 calendar-events-collecting:
   calendars:
     - "primary"
     - "Testowy calendar 2"
+  job:
+    enabled: true
+    cron: 0 0 6 * * *
+
 calendar-events-processing:
   notification-medium: MOCK
+  job:
+    enabled: true
+    cron: 0 0 7 * * *

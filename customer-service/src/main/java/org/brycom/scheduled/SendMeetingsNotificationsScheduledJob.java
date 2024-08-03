@@ -10,12 +10,12 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-@ConditionalOnProperty(name = "scheduled.jobs.meetings-notification.enabled", havingValue = "true")
+@ConditionalOnProperty(name = "calendar-events-processing.job.enabled", havingValue = "true")
 public class SendMeetingsNotificationsScheduledJob {
 
     private final CustomerEventsProcessingService eventsProcessingService;
 
-    @Scheduled(cron = "${scheduled.jobs.meetings-notification.cron}")
+    @Scheduled(cron = "${calendar-events-processing.job.cron}")
     public void run() {
         log.info("Meetings notification sending process started!");
         eventsProcessingService.processValidEvents();
