@@ -24,6 +24,9 @@ scheduled:
     daily-meetings:
       enabled: true
       cron: 0 0 6 * * *
+    meetings-notification:
+      enabled: true
+      cron: 0 0 7 * * *
 
 calendar-events-collecting:
   calendars:

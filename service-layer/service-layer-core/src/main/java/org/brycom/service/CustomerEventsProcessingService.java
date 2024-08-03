@@ -26,7 +26,8 @@ public class CustomerEventsProcessingService {
 
     private SMSContext createContext(MeetEvent meetEvent) {
         String message = String.format(
-                "Hello, we would like to inform you about your meeting today at %s",
+                "Hello %s, we would like to inform you about your meeting today at %s",
+                meetEvent.getCustomer().getName(),
                 meetEvent.getStartTime().format(DateUtils.hourAndMinutedFormatter())
         );
 
