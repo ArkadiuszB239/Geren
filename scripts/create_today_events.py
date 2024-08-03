@@ -1,11 +1,11 @@
 import datetime
 import random
 
+import sys
 from faker import Faker
-from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-import credentials
+import base_google_calendar_operations
 
 
 def get_event(title, description, date):
@@ -23,26 +23,29 @@ def get_event(title, description, date):
     }
 
 
-def create_event(title, description, date):
-    creds = credentials.get_creds()
+def create_event(calendar_id, title, description, date):
     try:
-        service = build("calendar", "v3", credentials=creds)
-
-        event = service.events().insert(calendarId="primary", body=get_event(title, description, date)).execute()
+        event = service.events().insert(calendarId=calendar_id,
+                                        body=get_event(title, description, date)).execute()
         print('Created event for: %s' % (event["summary"]))
 
     except HttpError as error:
         print(f"An error occurred: {error}")
 
 
+service = base_google_calendar_operations.get_calendar_api_service()
 between_events_periods = [30, 60, 90]
 fake = Faker("pl_PL")
-day_start = datetime.datetime.now().replace(hour=8, minute=0)
-day_end = datetime.datetime.now().replace(hour=17, minute=0)
-while day_start < day_end:
-    create_event(
-        fake.name(),
-        fake.phone_number(),
-        day_start
-    )
-    day_start += datetime.timedelta(minutes=random.choice(between_events_periods))
+for calendar_name in sys.argv[1:]:
+    calendarId = base_google_calendar_operations.get_calendar_id(calendar_name)
+    dayStart = datetime.datetime.now().replace(hour=8, minute=0)
+    dayEnd = datetime.datetime.now().replace(hour=17, minute=0)
+    print(f"Creating events for {calendar_name}")
+    while dayStart < dayEnd:
+        create_event(
+            calendarId,
+            fake.name(),
+            fake.phone_number(),
+            dayStart
+        )
+        dayStart += datetime.timedelta(minutes=random.choice(between_events_periods))
