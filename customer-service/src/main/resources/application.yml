@@ -9,11 +9,10 @@ spring:
         order_inserts: true
         order_updates: true
   datasource:
-    url: jdbc:postgresql://localhost:5432/geren_db?currentSchema=geren_dev&binaryTransfer=true&reWriteBatchedInserts=true
-    username: geren_main
-    password: admin1
+    url: jdbc:postgresql://${RDS_HOSTNAME:localhost}:${RDS_PORT:5432}/${RDS_DB_NAME:geren_db}?currentSchema=${RDS_SCHEMA_NAME:geren_dev}&binaryTransfer=true&reWriteBatchedInserts=true
+    username: ${RDS_USERNAME:geren_main}
+    password: ${RDS_PASSWORD:admin1}
     driver-class-name: org.postgresql.Driver
-    platform: postgres
   cloud:
     aws:
       region:
