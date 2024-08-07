@@ -5,7 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.brycom.entities.MeetingEntity;
 import org.brycom.valueobject.MeetEventState;
-import org.brycom.valueobject.MeetEventsSelectionPeriod;
+import org.brycom.valueobject.SelectionPeriod;
 import org.springframework.stereotype.Repository;
 
 import java.time.ZoneOffset;
@@ -22,13 +22,24 @@ public class MeetingRepository {
         return entityManager.find(MeetingEntity.class, id);
     }
 
-    public List<MeetingEntity> findBySelectionPeriodAndState(MeetEventsSelectionPeriod selectionPeriod, MeetEventState state) {
+    public List<MeetingEntity> findBySelectionPeriodAndState(SelectionPeriod selectionPeriod, MeetEventState state) {
         return entityManager.createQuery("""
                         SELECT m from MeetingEntity m
                         JOIN FETCH m.customer c
                         WHERE m.meetEventState = :state AND m.startTime between :periodStart AND :periodEnd
                         """, MeetingEntity.class)
                 .setParameter("state", state)
+                .setParameter("periodStart", selectionPeriod.getPeriodStart().atOffset(ZoneOffset.UTC))
+                .setParameter("periodEnd", selectionPeriod.getPeriodEnd().atOffset(ZoneOffset.UTC))
+                .getResultList();
+    }
+
+    public List<MeetingEntity> findBySeleltionPeriod(SelectionPeriod selectionPeriod) {
+        return entityManager.createQuery("""
+                        SELECT m from MeetingEntity m
+                        JOIN FETCH m.customer c
+                        WHERE m.startTime between :periodStart AND :periodEnd
+                        """, MeetingEntity.class)
                 .setParameter("periodStart", selectionPeriod.getPeriodStart().atOffset(ZoneOffset.UTC))
                 .setParameter("periodEnd", selectionPeriod.getPeriodEnd().atOffset(ZoneOffset.UTC))
                 .getResultList();

@@ -21,4 +21,11 @@ public class EventsGroup {
                 .filter(MeetEvent::isInvalid)
                 .toList();
     }
+
+    public EventsGroup subtract(EventsGroup group) {
+        this.meetEvents = this.meetEvents.stream()
+                .filter(event -> !group.getMeetEvents().contains(event))
+                .toList();
+        return this;
+    }
 }

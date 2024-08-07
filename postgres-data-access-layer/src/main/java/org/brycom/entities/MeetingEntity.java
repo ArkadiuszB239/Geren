@@ -38,10 +38,16 @@ public class MeetingEntity {
     private MeetEventState meetEventState;
 
     @Basic(optional = false)
-    @EqualsAndHashCode.Include
     private String phoneNumber;
 
     @Basic(optional = false)
-    @EqualsAndHashCode.Include
     private String sourceCalendar;
+
+    @Basic(optional = false)
+    @EqualsAndHashCode.Include
+    private String calendarId;
+
+    @Basic(optional = false)
+    @EqualsAndHashCode.Include
+    private String eventId;
 }

@@ -9,7 +9,7 @@ import org.brycom.service.external.CustomerEventsService;
 import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
 import org.brycom.valueobject.MeetEventState;
-import org.brycom.valueobject.MeetEventsSelectionPeriod;
+import org.brycom.valueobject.SelectionPeriod;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,8 +29,18 @@ public class CustomerEventsServiceImpl implements CustomerEventsService {
     }
 
     @Override
-    public EventsGroup findEvents(MeetEventsSelectionPeriod selectionPeriod, MeetEventState meetEventState) {
+    public EventsGroup findEvents(SelectionPeriod selectionPeriod, MeetEventState meetEventState) {
         List<MeetEvent> meetEvents = meetingRepository.findBySelectionPeriodAndState(selectionPeriod, meetEventState)
+                .stream()
+                .map(meetingEntityMapper::mapToEvent)
+                .toList();
+
+        return new EventsGroup(meetEvents);
+    }
+
+    @Override
+    public EventsGroup findEvents(SelectionPeriod selectionPeriod) {
+        List<MeetEvent> meetEvents = meetingRepository.findBySeleltionPeriod(selectionPeriod)
                 .stream()
                 .map(meetingEntityMapper::mapToEvent)
                 .toList();

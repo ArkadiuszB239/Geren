@@ -3,6 +3,7 @@ package org.brycom.service;
 import org.brycom.config.CalendarEventsCollectingConfig;
 import org.brycom.exception.ResourceUnavailableException;
 import org.brycom.valueobject.EventSearchRequest;
+import org.brycom.valueobject.SelectionPeriod;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +36,7 @@ class CalendarEventSearchRequestProviderTest {
 
     @Test
     void shouldReturnEventSearchWithPrimaryCalendarId() {
-        List<EventSearchRequest> searchRequests = requestProvider.get();
+        List<EventSearchRequest> searchRequests = requestProvider.get(SelectionPeriod.DAY);
 
         assertFalse(searchRequests.isEmpty());
         assertTrue(searchRequests.stream().anyMatch(s -> "primary".equals(s.getCalendarId())));
@@ -43,7 +44,7 @@ class CalendarEventSearchRequestProviderTest {
 
     @Test
     void shouldReturnEventSearchWithCalendarIdEqualsTo1() throws IOException {
-        List<EventSearchRequest> searchRequests = requestProvider.get();
+        List<EventSearchRequest> searchRequests = requestProvider.get(SelectionPeriod.DAY);
 
         assertFalse(searchRequests.isEmpty());
         verify(calendarService, times(1)).getCalendarIds(List.of("Test calendar"));
@@ -54,7 +55,7 @@ class CalendarEventSearchRequestProviderTest {
     void shouldThrowResourcesUnavailableException() throws IOException {
         when(calendarService.getCalendarIds(List.of("Test calendar"))).thenThrow(IOException.class);
 
-        assertThrows(ResourceUnavailableException.class, () -> requestProvider.get());
+        assertThrows(ResourceUnavailableException.class, () -> requestProvider.get(SelectionPeriod.DAY));
     }
 
 

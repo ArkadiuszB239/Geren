@@ -7,6 +7,7 @@ import org.brycom.service.external.CustomerEventsService;
 import org.brycom.valueobject.CalendarEvent;
 import org.brycom.valueobject.EventsGroup;
 import org.brycom.valueobject.MeetEvent;
+import org.brycom.valueobject.SelectionPeriod;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +19,15 @@ public class CustomerEventsCollectingService {
     private final CalendarEventsProvider eventsProvider;
     private final CustomerEventsService customerEventsService;
 
-    public void collectAndStoreCustomerEvents() {
-        EventsGroup eventsGroup = getEvents();
-        customerEventsService.storeAllEvents(eventsGroup);
+    public void collectAndStoreCustomerEvents(SelectionPeriod selectionPeriod) {
+        EventsGroup eventsGroup = getEvents(selectionPeriod);
+        EventsGroup processedEvents = customerEventsService.findEvents(selectionPeriod);
+        EventsGroup eventsToStore = eventsGroup.subtract(processedEvents);
+        customerEventsService.storeAllEvents(eventsToStore);
     }
 
-    public EventsGroup getEvents() {
-        List<CalendarEvent> calendarEvents = eventsProvider.get();
+    private EventsGroup getEvents(SelectionPeriod selectionPeriod) {
+        List<CalendarEvent> calendarEvents = eventsProvider.get(selectionPeriod);
         List<MeetEvent> events = calendarEvents.stream()
                 .map(meetEventsMapper::calendarToMeetEvent)
                 .map(meetEvent -> MeetEventsValidator.isValid(meetEvent) ? meetEvent.valid() : meetEvent.invalid())

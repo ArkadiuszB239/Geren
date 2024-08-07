@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
-public enum MeetEventsSelectionPeriod {
+public enum SelectionPeriod {
     DAY(DateUtils.getDayStart(), DateUtils.getDayEnd()),
     WEEK(DateUtils.getWeekStart(), DateUtils.getDayEnd()),
     MONTH(DateUtils.getMonthStart(), DateUtils.getDayEnd());

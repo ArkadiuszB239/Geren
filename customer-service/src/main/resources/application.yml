@@ -5,7 +5,7 @@ spring:
     properties:
       hibernate:
         jdbc:
-          batch_size: 20
+          batch_size: 5
         order_inserts: true
         order_updates: true
   datasource:

@@ -1,5 +1,5 @@
 ### GET request to trigger calendar events collecting
-GET http://localhost:8080/events
+POST http://localhost:8080/events/collect
 
 ### POST request to send notifications based on collected events
 POST http://localhost:8080/events/process

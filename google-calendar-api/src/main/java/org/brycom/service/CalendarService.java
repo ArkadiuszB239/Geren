@@ -28,7 +28,7 @@ public class CalendarService {
                 .execute();
 
         return events.getItems().stream()
-                .map(event -> new CalendarEvent(event, events.getSummary()))
+                .map(event -> new CalendarEvent(event, searchRequest.getCalendarId(), events.getSummary()))
                 .toList();
     }
 

@@ -3,8 +3,8 @@ package org.brycom.service;
 import lombok.RequiredArgsConstructor;
 import org.brycom.config.CalendarEventsCollectingConfig;
 import org.brycom.exception.ResourceUnavailableException;
-import org.brycom.utils.DateUtils;
 import org.brycom.valueobject.EventSearchRequest;
+import org.brycom.valueobject.SelectionPeriod;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -19,11 +19,11 @@ public class CalendarEventSearchRequestProvider {
     private final CalendarService calendarService;
     private final CalendarEventsCollectingConfig collectingConfig;
 
-    public List<EventSearchRequest> get() {
+    public List<EventSearchRequest> get(SelectionPeriod selectionPeriod) {
         List<String> calendarIDs = getCalendarIds();
 
         return calendarIDs.stream()
-                .map(this::getForCalendarId)
+                .map(calendarId -> createSearchRequest(calendarId, selectionPeriod))
                 .toList();
     }
 
@@ -53,11 +53,11 @@ public class CalendarEventSearchRequestProvider {
         return collectingConfig.getCalendars().stream().anyMatch(OWNER_CALENDAR_ID::equals);
     }
 
-    private EventSearchRequest getForCalendarId(String calendarId) {
+    private EventSearchRequest createSearchRequest(String calendarId, SelectionPeriod selectionPeriod) {
         return new EventSearchRequest(
                 calendarId,
-                DateUtils.getDayStart(),
-                DateUtils.getDayEnd()
+                selectionPeriod.getPeriodStart(),
+                selectionPeriod.getPeriodEnd()
         );
     }
 }

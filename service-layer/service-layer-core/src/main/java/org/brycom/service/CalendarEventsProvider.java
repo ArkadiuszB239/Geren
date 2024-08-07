@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.brycom.exception.ResourceUnavailableException;
 import org.brycom.valueobject.CalendarEvent;
 import org.brycom.valueobject.EventSearchRequest;
+import org.brycom.valueobject.SelectionPeriod;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,8 +17,8 @@ public class CalendarEventsProvider {
     private final CalendarService calendarService;
     private final CalendarEventSearchRequestProvider searchRequestProvider;
 
-    public List<CalendarEvent> get() {
-        List<EventSearchRequest> searchRequests = searchRequestProvider.get();
+    public List<CalendarEvent> get(SelectionPeriod selectionPeriod) {
+        List<EventSearchRequest> searchRequests = searchRequestProvider.get(selectionPeriod);
         return searchRequests.stream()
                 .map(this::getCalendarEvents)
                 .flatMap(List::stream)

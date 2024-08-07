@@ -11,16 +11,20 @@ import java.util.Date;
 
 @Getter
 public class CalendarEvent {
+    private final String calendarId;
     private final String calendarName;
     private final String summary;
     private final String description;
     private final OffsetDateTime eventStartDate;
+    private final String eventId;
 
-    public CalendarEvent(Event event, String calendarName) {
+    public CalendarEvent(Event event, String calendarId, String calendarName) {
+        this.calendarId = calendarId;
         this.calendarName = calendarName;
         this.summary = event.getSummary();
         this.description = event.getDescription();
         this.eventStartDate = toOffsetDateTime(event.getStart());
+        this.eventId = event.getId();
     }
 
     private OffsetDateTime toOffsetDateTime(EventDateTime eventDateTime) {

@@ -2,6 +2,7 @@ package org.brycom.valueobject;
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -12,6 +13,7 @@ import static com.google.i18n.phonenumbers.PhoneNumberUtil.PhoneNumberFormat.E16
 
 @Getter
 @Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class MeetEvent {
     private Long meetingId;
     private Customer customer;
@@ -19,6 +21,10 @@ public class MeetEvent {
     private MeetEventState meetEventState = MeetEventState.NEW;
     private String phoneNumber;
     private String sourceCalendar;
+    @EqualsAndHashCode.Include
+    private String calendarId;
+    @EqualsAndHashCode.Include
+    private String calendarEventId;
 
     public MeetEvent invalid() {
         this.meetEventState = MeetEventState.INVALID;

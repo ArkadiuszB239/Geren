@@ -14,7 +14,7 @@ public class CustomerEventsProcessingService {
     private final SMSGatewayService smsGatewayService;
 
     public void processValidEvents() {
-        EventsGroup eventsGroup = customerEventsService.findEvents(MeetEventsSelectionPeriod.DAY, MeetEventState.NEW);
+        EventsGroup eventsGroup = customerEventsService.findEvents(SelectionPeriod.DAY, MeetEventState.NEW);
 
         for (MeetEvent event: eventsGroup.getValidEvents()) {
             SMSContext context = createContext(event);
