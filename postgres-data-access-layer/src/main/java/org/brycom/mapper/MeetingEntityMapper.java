@@ -22,6 +22,7 @@ public interface MeetingEntityMapper {
     @Mapping(target = "startTime", expression = "java(atZoneSameInstant(meetingEntity.getStartTime()))")
     MeetEvent mapToEvent(MeetingEntity meetingEntity);
 
+    @Mapping(target = "id", ignore = true)
     CustomerEntity mapToCustomerEntity(Customer customer);
 
     default LocalDate toLocalDate(OffsetDateTime value) {

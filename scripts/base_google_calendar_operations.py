@@ -8,6 +8,14 @@ from googleapiclient.discovery import build
 SCOPES = ["https://www.googleapis.com/auth/calendar"]
 
 
+def get_client_id():
+    return ""
+
+
+def get_client_secret():
+    return ""
+
+
 def get_creds():
     creds = None
     if os.path.exists("../tokens/token.json"):
@@ -17,11 +25,18 @@ def get_creds():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                "./../google-calendar-api/src/main/resources/credentials.json",
-                SCOPES
+            client_config = {
+                "installed": {
+                    "client_id": get_client_id(),
+                    "client_secret": get_client_secret(),
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                }
+            }
+            app_flow = InstalledAppFlow.from_client_config(
+                client_config, scopes=SCOPES
             )
-            creds = flow.run_local_server(port=0)
+            creds = app_flow.run_local_server(port=0)
 
         with open("../tokens/token.json", "w") as token:
             token.write(creds.to_json())
